@@ -1,3 +1,10 @@
+Original repository [here](https://github.com/martinsson/Refactoring-Kata-Lift-Pass-Pricing)
+
+Forked from [pmareke repository](https://github.com/pmareke/lift)
+
+Following [Lift Pass Kata (Python)](https://www.youtube.com/watch?v=JdrerI0iOyo&list=PLsG63TbtJ1zvZ6Ix_o4gLGIg8IHcLOxpu) videos by Pedro López Mareque
+
+
 # Lift pass pricing
 
 ![Image logo](./mountain-snow.jpg)
