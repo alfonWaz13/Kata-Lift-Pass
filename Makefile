@@ -22,6 +22,10 @@ test: ## Run tests
 format: ## Run format
 	docker compose run --rm --no-deps lift poetry run black src test
 
+.PHONY: check-typing
+check-typing: ## Check typing
+	docker compose run --rm --no-deps lift poetry run mypy src test
+
 .PHONY: test-coverage
 test-coverage: ## Run tests coverage
 	docker compose run --rm lift coverage run --branch -m pytest test
