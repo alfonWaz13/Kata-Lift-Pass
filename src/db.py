@@ -29,5 +29,4 @@ def try_to_connect_with_pymysql(connection_options: Dict[str, str]) -> Connectio
         password=connection_options["password"],
         database=connection_options["database"],
         cursorclass=PyMySQLCursorWrapper,
-
     )

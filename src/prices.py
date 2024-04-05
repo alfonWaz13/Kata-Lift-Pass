@@ -75,10 +75,7 @@ def prices() -> Dict[str, int]:
                         cost = result["cost"] * (1 - reduction / 100)
                         res["cost"] = math.ceil(cost)
                     else:
-                        if (
-                            age
-                            and int(age) > 64
-                        ):
+                        if age and int(age) > 64:
                             cost = result["cost"] * 0.75 * (1 - reduction / 100)
                             res["cost"] = math.ceil(cost)
                         else:
