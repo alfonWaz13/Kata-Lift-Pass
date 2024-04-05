@@ -35,7 +35,7 @@ class TestLiftPass:
     )
     def test_1jour_cost_with_age_matches_expected_price(
         self, age: int, expected_price: int
-    ):
+    ) -> None:
         client = app.test_client()
         response = client.get(
             "/prices", query_string={"type": "1jour", "age": f"{age}"}
@@ -50,7 +50,7 @@ class TestLiftPass:
     @pytest.mark.parametrize("age, expected_price", [(10, 19), (65, 8)])
     def test_night_cost_with_age_matches_expected_price(
         self, age: int, expected_price: int
-    ):
+    ) -> None:
         client = app.test_client()
         response = client.get(
             "/prices", query_string={"type": "night", "age": f"{age}"}
