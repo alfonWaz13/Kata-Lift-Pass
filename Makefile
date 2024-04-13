@@ -36,3 +36,14 @@ test-coverage: ## Run tests coverage
 	docker compose run --rm lift coverage run --branch -m pytest test
 	docker compose run --rm lift coverage html
 	@echo "You can open the coverage report here: htmlcov/index.html"
+
+.PHONY: watch
+watch: ## Watch tests
+	docker compose run --rm lift poetry run ptw
+
+.PHONY: local-setup
+local-setup: ## Set up the local environment (e.g. install git hooks)
+	scripts/local-setup.sh
+
+.PHONY: pre-commit
+pre-commit: check-format check-typing test
