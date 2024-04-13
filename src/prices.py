@@ -17,22 +17,17 @@ connection_options = {
     "password": "mysql",
 }
 
-connection = None
+
+connection = create_lift_pass_db_connection(connection_options)
 
 
 @app.route("/prices", methods=["PUT"])
 def add_price() -> Dict[str, int]:
-    global connection
-    if connection is None:
-        connection = create_lift_pass_db_connection(connection_options)
     return _add_price(connection)
 
 
 @app.route("/prices", methods=["GET"])
 def get_price() -> Dict[str, int]:
-    global connection
-    if connection is None:
-        connection = create_lift_pass_db_connection(connection_options)
     return _get_price(connection)
 
 
