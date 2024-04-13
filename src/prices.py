@@ -7,7 +7,7 @@ from flask import request
 from pymysql import Connection
 
 from src.db import create_lift_pass_db_connection
-from src.delivery.api.add_price_controller import _add_price
+from src.delivery.api.add_price_controller import AddPriceController
 
 app = Flask("lift-pass-pricing")
 
@@ -20,11 +20,12 @@ connection_options = {
 
 
 connection = create_lift_pass_db_connection(connection_options)
+add_price_controller = AddPriceController(connection=connection)
 
 
 @app.route("/prices", methods=["PUT"])
 def add_price() -> Dict[str, int]:
-    return _add_price(connection)
+    return add_price_controller.add_price()
 
 
 @app.route("/prices", methods=["GET"])
