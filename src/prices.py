@@ -7,6 +7,7 @@ from flask import request
 from pymysql import Connection
 
 from src.db import create_lift_pass_db_connection
+from src.delivery.api.add_price_controller import _add_price
 
 app = Flask("lift-pass-pricing")
 
@@ -89,18 +90,6 @@ def _get_price(connection: Connection) -> dict:
                 res["cost"] = 0
 
     return res
-
-
-def _add_price(connection: Connection) -> dict:
-    lift_pass_cost = request.args["cost"]
-    lift_pass_type = request.args["type"]
-    cursor = connection.cursor()
-    cursor.execute(
-        "INSERT INTO `base_price` (type, cost) VALUES (?, ?) "
-        + "ON DUPLICATE KEY UPDATE cost = ?",
-        (lift_pass_type, lift_pass_cost, lift_pass_cost),
-    )
-    return {}
 
 
 if __name__ == "__main__":
