@@ -20,13 +20,19 @@ connection_options = {
 connection = None
 
 
-@app.route("/prices", methods=["GET", "PUT"])
-def prices() -> Dict[str, int]:
+@app.route("/prices", methods=["PUT"])
+def add_price() -> Dict[str, int]:
     global connection
     if connection is None:
         connection = create_lift_pass_db_connection(connection_options)
-    if request.method == "PUT":
-        return _add_price(connection)
+    return _add_price(connection)
+
+
+@app.route("/prices", methods=["GET"])
+def get_price() -> Dict[str, int]:
+    global connection
+    if connection is None:
+        connection = create_lift_pass_db_connection(connection_options)
     return _get_price(connection)
 
 
