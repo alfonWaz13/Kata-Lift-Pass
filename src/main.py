@@ -29,7 +29,3 @@ def add_price() -> Dict[str, int]:
 @app.route("/prices", methods=["GET"])
 def get_price() -> Dict[str, int]:
     return get_price_controller.get_price()
-
-
-if __name__ == "__main__":
-    app.run(port=3005)
