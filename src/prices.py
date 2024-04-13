@@ -1,9 +1,11 @@
 import math
+from datetime import datetime
 from typing import Dict
 
 from flask import Flask
 from flask import request
-from datetime import datetime
+from pymysql import Connection
+
 from src.db import create_lift_pass_db_connection
 
 app = Flask("lift-pass-pricing")
@@ -25,15 +27,7 @@ def prices() -> Dict[str, int]:
     if connection is None:
         connection = create_lift_pass_db_connection(connection_options)
     if request.method == "PUT":
-        lift_pass_cost = request.args["cost"]
-        lift_pass_type = request.args["type"]
-        cursor = connection.cursor()
-        cursor.execute(
-            "INSERT INTO `base_price` (type, cost) VALUES (?, ?) "
-            + "ON DUPLICATE KEY UPDATE cost = ?",
-            (lift_pass_type, lift_pass_cost, lift_pass_cost),
-        )
-        return {}
+        return _add_price(connection)
     else:
         cursor = connection.cursor()
         cursor.execute(
@@ -91,6 +85,18 @@ def prices() -> Dict[str, int]:
                     res["cost"] = 0
 
     return res
+
+
+def _add_price(connection: Connection) -> dict:
+    lift_pass_cost = request.args["cost"]
+    lift_pass_type = request.args["type"]
+    cursor = connection.cursor()
+    cursor.execute(
+        "INSERT INTO `base_price` (type, cost) VALUES (?, ?) "
+        + "ON DUPLICATE KEY UPDATE cost = ?",
+        (lift_pass_type, lift_pass_cost, lift_pass_cost),
+    )
+    return {}
 
 
 if __name__ == "__main__":
