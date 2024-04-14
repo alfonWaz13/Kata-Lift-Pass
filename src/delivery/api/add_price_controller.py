@@ -1,18 +1,21 @@
 from flask import request
-from pymysql import Connection
+
+from src.use_cases.add_price_command_handler import (
+    AddPriceCommandHandler,
+    AddPriceCommand,
+)
 
 
 class AddPriceController:
-    def __init__(self, connection: Connection) -> None:
-        self.connection = connection
+    def __init__(self, command_handler: AddPriceCommandHandler) -> None:
+        self.command_handler = command_handler
 
     def add_price(self) -> dict:
         lift_pass_cost = request.args["cost"]
         lift_pass_type = request.args["type"]
-        cursor = self.connection.cursor()
-        cursor.execute(
-            "INSERT INTO `base_price` (type, cost) VALUES (?, ?) "
-            + "ON DUPLICATE KEY UPDATE cost = ?",
-            (lift_pass_type, lift_pass_cost, lift_pass_cost),
+
+        command = AddPriceCommand(
+            lift_pass_type=lift_pass_type, lift_pass_cost=float(lift_pass_cost)
         )
-        return {}
+
+        return self.command_handler.execute(command=command)
